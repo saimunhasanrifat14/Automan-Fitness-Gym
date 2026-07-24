@@ -506,28 +506,61 @@ function Landing() {
           title={<>Everything Under <span className="text-primary">One Roof.</span></>}
           sub="Purpose-built spaces for strength, endurance, recovery and everything in between."
         />
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Mobile slider */}
+        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FACILITIES.map((f, i) => (
-            <div
-              key={i}
-              className="group relative aspect-[4/5] overflow-hidden rounded-xl border border-border bg-card"
-            >
-              <img
-                src={f.img}
-                alt={f.title}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <div className="mb-1 h-px w-8 bg-primary transition-all duration-500 group-hover:w-16" />
-                <h3 className="mt-3 text-xl font-bold">{f.title}</h3>
-                <p className="mt-1.5 text-sm text-muted-foreground">{f.desc}</p>
-              </div>
-            </div>
+            <FacilityCard key={i} f={f} className="min-w-[82%] snap-start" />
           ))}
         </div>
+        {/* Desktop grid */}
+        <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
+          {FACILITIES.map((f, i) => (
+            <FacilityCard key={i} f={f} />
+          ))}
+        </div>
+        <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+          Swipe to explore →
+        </p>
       </section>
+
+      {/* PRICING */}
+      <section id="pricing" className="border-t border-border bg-card/30">
+        <div className="container-x mx-auto max-w-7xl py-24 md:py-32">
+          <SectionHeader
+            tag="Membership Plans"
+            title={<>Simple, Honest <span className="text-primary">Pricing.</span></>}
+            sub="Choose the plan that fits your goals. Couple packages available on every duration."
+          />
+
+          {/* Admission summary */}
+          <div className="mt-10 grid gap-4 rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:grid-cols-4 md:p-6">
+            <AdmissionStat label="Admission Fee" value={ADMISSION.fee} strike />
+            <AdmissionStat label="Discounted" value={ADMISSION.discounted} accent />
+            <AdmissionStat label="Monthly Fee" value={ADMISSION.monthly} />
+            <AdmissionStat label="Start With" value="৳6,500" accent />
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Pay ৳6,500 and get admission + first month (limited-time discount).
+          </p>
+
+          {/* Mobile slider */}
+          <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {PRICING.map((p, i) => (
+              <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} className="min-w-[82%] snap-start" />
+            ))}
+          </div>
+          {/* Desktop grid */}
+          <div className="mt-10 hidden gap-4 md:grid md:grid-cols-3 lg:grid-cols-5">
+            {PRICING.map((p, i) => (
+              <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} />
+            ))}
+          </div>
+          <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+            Swipe for more plans →
+          </p>
+        </div>
+      </section>
+
 
       {/* CTA */}
       <section className="relative overflow-hidden border-y border-border">
