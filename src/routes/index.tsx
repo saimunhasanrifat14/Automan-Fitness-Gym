@@ -30,10 +30,10 @@ export const Route = createFileRoute("/")({
         content:
           "Modern premium gym in Dhaka with branches in Tejgaon and Dhanmondi. International-standard equipment, certified trainers, steam bath and locker facilities.",
       },
-      { property: "og:title", content: "Automan Fitness Gym — Let's Live Life" },
+      { property: "og:title", content: "Automan Fitness Gym — Let's Live Life | Dhaka" },
       {
         property: "og:description",
-        content: "Dhaka's modern fitness destination. Train different. Live different.",
+        content: "Modern premium gym in Dhaka with branches in Tejgaon and Dhanmondi. International-standard equipment, certified trainers, steam bath and locker facilities.",
       },
       {
         property: "og:image",

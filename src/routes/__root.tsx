@@ -60,16 +60,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Automan Fitness Gym — Dhaka's modern premium fitness destination. Branches in Tejgaon and Dhanmondi. International-standard equipment, certified trainers, steam bath and locker facilities.",
+          "Modern premium gym in Dhaka with branches in Tejgaon and Dhanmondi. International-standard equipment, certified trainers, steam bath and locker facilities.",
       },
-      { property: "og:title", content: "Automan Fitness Gym — Let's Live Life" },
+      { property: "og:title", content: "Automan Fitness Gym — Let's Live Life | Dhaka" },
       {
         property: "og:description",
         content:
-          "Dhaka's modern fitness destination for people who are serious about strength, health, and lifestyle.",
+          "Modern premium gym in Dhaka with branches in Tejgaon and Dhanmondi. International-standard equipment, certified trainers, steam bath and locker facilities.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Automan Fitness Gym — Let's Live Life | Dhaka" },
+      { name: "twitter:description", content: "Modern premium gym in Dhaka with branches in Tejgaon and Dhanmondi. International-standard equipment, certified trainers, steam bath and locker facilities." },
+      { property: "og:image", content: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&q=80&auto=format&fit=crop" },
+      { name: "twitter:image", content: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&q=80&auto=format&fit=crop" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
