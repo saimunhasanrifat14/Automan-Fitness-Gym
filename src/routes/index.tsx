@@ -57,6 +57,7 @@ const NAV = [
   { href: "#why", label: "Why Us" },
   { href: "#branches", label: "Branches" },
   { href: "#facilities", label: "Facilities" },
+  { href: "#pricing", label: "Pricing" },
   { href: "#reviews", label: "Reviews" },
   { href: "#contact", label: "Contact" },
 ];
