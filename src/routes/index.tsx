@@ -72,6 +72,7 @@ type Branch = {
   female: string;
   femaleNote?: string;
   maps: string;
+  embed: string;
   image: string;
 };
 
@@ -82,7 +83,9 @@ const BRANCHES: Branch[] = [
     address:
       "2nd Floor, Northern SR Tower, beside Tejgaon Thana, 49 Bir Uttam Ziaur Rahman Sarak, Dhaka-1215",
     female: "No female hour at any time",
-    maps: "https://www.google.com/maps/search/?api=1&query=Northern+SR+Tower+Tejgaon+Dhaka",
+    maps: "https://www.google.com/maps/search/?api=1&query=Automan+Fitness+Gym+Northern+SR+Tower+Tejgaon+Dhaka",
+    embed:
+      "https://www.google.com/maps?q=Automan+Fitness+Gym+Northern+SR+Tower+Tejgaon+Dhaka&output=embed",
     image:
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1400&q=80&auto=format&fit=crop",
   },
@@ -93,9 +96,11 @@ const BRANCHES: Branch[] = [
       "House #39/A, Road #08, beside Sheikh Jamal Field, Dhanmondi, Dhaka",
     female: "12:00 PM – 2:00 PM",
     femaleNote: "Normal timing only",
-    maps: "https://www.google.com/maps/search/?api=1&query=Sheikh+Jamal+Field+Dhanmondi+Dhaka",
+    maps: "https://www.google.com/maps/search/?api=1&query=Automan+Fitness+Gym+Dhanmondi+House+39A+Road+8+Sheikh+Jamal+Field+Dhaka",
+    embed:
+      "https://www.google.com/maps?q=Automan+Fitness+Gym+Dhanmondi+House+39A+Road+8+Sheikh+Jamal+Field+Dhaka&output=embed",
     image:
-      "https://images.unsplash.com/photo-1637666511889-7040eb2fac95?w=1400&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1554284126-aa88f22d8b74?w=1400&q=80&auto=format&fit=crop",
   },
 ];
 
@@ -132,33 +137,89 @@ const FACILITIES = [
   },
 ];
 
+type Plan = {
+  name: string;
+  price: string;
+  original?: string;
+  couple?: string;
+  highlight?: boolean;
+  badge?: string;
+  perks: string[];
+};
+
+const PRICING: Plan[] = [
+  {
+    name: "Weekly",
+    price: "৳1,200",
+    perks: ["1 week full access", "All equipment", "Locker use"],
+  },
+  {
+    name: "1 Month",
+    price: "৳5,000",
+    couple: "৳9,000 for 2 (Couple)",
+    perks: ["Full month access", "All equipment", "Steam bath"],
+  },
+  {
+    name: "3 Months",
+    price: "৳12,000",
+    original: "৳17,000",
+    couple: "৳22,000 for 2 (Couple)",
+    badge: "Save ৳5,000",
+    perks: ["3 months access", "All equipment", "Steam bath & locker"],
+  },
+  {
+    name: "6 Months",
+    price: "৳20,000",
+    original: "৳29,000",
+    couple: "৳35,000 for 2 (Couple)",
+    highlight: true,
+    badge: "Most Popular",
+    perks: ["6 months access", "Priority support", "Steam bath & locker"],
+  },
+  {
+    name: "12 Months",
+    price: "৳35,000",
+    original: "৳53,000",
+    couple: "৳50,000 for 2 (Couple)",
+    badge: "Best Value",
+    perks: ["Full year access", "Priority support", "All facilities included"],
+  },
+];
+
+const ADMISSION = {
+  fee: "৳5,000",
+  discounted: "৳2,500",
+  monthly: "৳4,000",
+  combo: "৳6,500 total to start (admission + first month)",
+};
+
 const REVIEWS = [
   {
-    name: "Tanvir Ahmed",
-    role: "Member • Tejgaon",
+    name: "Tarin Anwar",
+    role: "Google Review • 6 months ago",
     rating: 5,
-    text: "Great environment, modern equipment, and the trainers are very helpful. One of the best gyms I have visited in Dhaka.",
+    text: "Best gym in the Dhanmondi area. Uncrowded. Suggestion: it should open at 6 AM (not 8 AM) on weekdays, and on Fridays it should be like any other day and not open at 5 PM which is too late.",
+    img: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=200&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Nafis Shadman Quader",
+    role: "Google Review • a year ago",
+    rating: 5,
+    text: "I've been coming to this gym for a while and overall it's been a good experience. The equipment is modern and well maintained, and the crowd is respectful and educated, which creates a pleasant atmosphere. The support staff are polite and helpful.",
     img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80&auto=format&fit=crop",
   },
   {
-    name: "Rifat Hasan",
-    role: "Member • Dhanmondi",
+    name: "Sarah Nehrina Nazim",
+    role: "Google Review • a year ago",
     rating: 5,
-    text: "Spacious floor, clean facilities and a proper strength area. It actually feels like a real gym, not just a room with machines.",
+    text: "Small gestures of humbleness and kind words make it easy to maintain a relationship with the gym and continue coming back even after 5 years. Appreciate that the owner remembers his members after long gaps.",
     img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80&auto=format&fit=crop",
   },
   {
-    name: "Sadia Rahman",
-    role: "Member • Dhanmondi",
-    rating: 5,
-    text: "The female hour at Dhanmondi made it easy to start. Trainers are respectful and know what they're doing.",
-    img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80&auto=format&fit=crop",
-  },
-  {
-    name: "Mahin Chowdhury",
-    role: "Member • Tejgaon",
-    rating: 5,
-    text: "Steam bath after leg day is unreal. Membership feels genuinely worth it every month.",
+    name: "Almoin Nafis",
+    role: "Google Review • 11 months ago",
+    rating: 2,
+    text: "Maintenance of equipment and air conditioning could be improved, and it can get crowded during peak hours. Sharing honest feedback so the team can keep improving.",
     img: "https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?w=200&q=80&auto=format&fit=crop",
   },
 ];
