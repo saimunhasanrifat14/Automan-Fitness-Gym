@@ -610,35 +610,21 @@ function Landing() {
           title={<>Real People. <span className="text-primary">Real Progress.</span></>}
           sub="What our community is saying about training at Automan Fitness."
         />
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile slider */}
+        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {REVIEWS.map((r, i) => (
-            <div
-              key={i}
-              className="flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50"
-            >
-              <div className="flex gap-0.5 text-primary">
-                {Array.from({ length: r.rating }).map((_, k) => (
-                  <Star key={k} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/90">
-                &ldquo;{r.text}&rdquo;
-              </p>
-              <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
-                <img
-                  src={r.img}
-                  alt={r.name}
-                  loading="lazy"
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-                <div className="min-w-0">
-                  <div className="truncate text-sm font-semibold">{r.name}</div>
-                  <div className="truncate text-xs text-muted-foreground">{r.role}</div>
-                </div>
-              </div>
-            </div>
+            <ReviewCard key={i} r={r} className="min-w-[85%] snap-start" />
           ))}
         </div>
+        {/* Desktop grid */}
+        <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+          {REVIEWS.map((r, i) => (
+            <ReviewCard key={i} r={r} />
+          ))}
+        </div>
+        <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+          Swipe to read more →
+        </p>
       </section>
 
       {/* CONTACT */}
