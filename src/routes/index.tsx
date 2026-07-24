@@ -19,6 +19,7 @@ import {
   Instagram,
   Youtube,
   Navigation,
+  Check,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -57,6 +58,7 @@ const NAV = [
   { href: "#why", label: "Why Us" },
   { href: "#branches", label: "Branches" },
   { href: "#facilities", label: "Facilities" },
+  { href: "#pricing", label: "Pricing" },
   { href: "#reviews", label: "Reviews" },
   { href: "#contact", label: "Contact" },
 ];
@@ -71,6 +73,7 @@ type Branch = {
   female: string;
   femaleNote?: string;
   maps: string;
+  embed: string;
   image: string;
 };
 
@@ -81,7 +84,9 @@ const BRANCHES: Branch[] = [
     address:
       "2nd Floor, Northern SR Tower, beside Tejgaon Thana, 49 Bir Uttam Ziaur Rahman Sarak, Dhaka-1215",
     female: "No female hour at any time",
-    maps: "https://www.google.com/maps/search/?api=1&query=Northern+SR+Tower+Tejgaon+Dhaka",
+    maps: "https://www.google.com/maps/search/?api=1&query=Automan+Fitness+Gym+Northern+SR+Tower+Tejgaon+Dhaka",
+    embed:
+      "https://www.google.com/maps?q=Automan+Fitness+Gym+Northern+SR+Tower+Tejgaon+Dhaka&output=embed",
     image:
       "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1400&q=80&auto=format&fit=crop",
   },
@@ -92,9 +97,11 @@ const BRANCHES: Branch[] = [
       "House #39/A, Road #08, beside Sheikh Jamal Field, Dhanmondi, Dhaka",
     female: "12:00 PM – 2:00 PM",
     femaleNote: "Normal timing only",
-    maps: "https://www.google.com/maps/search/?api=1&query=Sheikh+Jamal+Field+Dhanmondi+Dhaka",
+    maps: "https://www.google.com/maps/search/?api=1&query=Automan+Fitness+Gym+Dhanmondi+House+39A+Road+8+Sheikh+Jamal+Field+Dhaka",
+    embed:
+      "https://www.google.com/maps?q=Automan+Fitness+Gym+Dhanmondi+House+39A+Road+8+Sheikh+Jamal+Field+Dhaka&output=embed",
     image:
-      "https://images.unsplash.com/photo-1637666511889-7040eb2fac95?w=1400&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1554284126-aa88f22d8b74?w=1400&q=80&auto=format&fit=crop",
   },
 ];
 
@@ -131,33 +138,89 @@ const FACILITIES = [
   },
 ];
 
+type Plan = {
+  name: string;
+  price: string;
+  original?: string;
+  couple?: string;
+  highlight?: boolean;
+  badge?: string;
+  perks: string[];
+};
+
+const PRICING: Plan[] = [
+  {
+    name: "Weekly",
+    price: "৳1,200",
+    perks: ["1 week full access", "All equipment", "Locker use"],
+  },
+  {
+    name: "1 Month",
+    price: "৳5,000",
+    couple: "৳9,000 for 2 (Couple)",
+    perks: ["Full month access", "All equipment", "Steam bath"],
+  },
+  {
+    name: "3 Months",
+    price: "৳12,000",
+    original: "৳17,000",
+    couple: "৳22,000 for 2 (Couple)",
+    badge: "Save ৳5,000",
+    perks: ["3 months access", "All equipment", "Steam bath & locker"],
+  },
+  {
+    name: "6 Months",
+    price: "৳20,000",
+    original: "৳29,000",
+    couple: "৳35,000 for 2 (Couple)",
+    highlight: true,
+    badge: "Most Popular",
+    perks: ["6 months access", "Priority support", "Steam bath & locker"],
+  },
+  {
+    name: "12 Months",
+    price: "৳35,000",
+    original: "৳53,000",
+    couple: "৳50,000 for 2 (Couple)",
+    badge: "Best Value",
+    perks: ["Full year access", "Priority support", "All facilities included"],
+  },
+];
+
+const ADMISSION = {
+  fee: "৳5,000",
+  discounted: "৳2,500",
+  monthly: "৳4,000",
+  combo: "৳6,500 total to start (admission + first month)",
+};
+
 const REVIEWS = [
   {
-    name: "Tanvir Ahmed",
-    role: "Member • Tejgaon",
+    name: "Tarin Anwar",
+    role: "Google Review • 6 months ago",
     rating: 5,
-    text: "Great environment, modern equipment, and the trainers are very helpful. One of the best gyms I have visited in Dhaka.",
+    text: "Best gym in the Dhanmondi area. Uncrowded. Suggestion: it should open at 6 AM (not 8 AM) on weekdays, and on Fridays it should be like any other day and not open at 5 PM which is too late.",
+    img: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=200&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Nafis Shadman Quader",
+    role: "Google Review • a year ago",
+    rating: 5,
+    text: "I've been coming to this gym for a while and overall it's been a good experience. The equipment is modern and well maintained, and the crowd is respectful and educated, which creates a pleasant atmosphere. The support staff are polite and helpful.",
     img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80&auto=format&fit=crop",
   },
   {
-    name: "Rifat Hasan",
-    role: "Member • Dhanmondi",
+    name: "Sarah Nehrina Nazim",
+    role: "Google Review • a year ago",
     rating: 5,
-    text: "Spacious floor, clean facilities and a proper strength area. It actually feels like a real gym, not just a room with machines.",
+    text: "Small gestures of humbleness and kind words make it easy to maintain a relationship with the gym and continue coming back even after 5 years. Appreciate that the owner remembers his members after long gaps.",
     img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80&auto=format&fit=crop",
   },
   {
-    name: "Sadia Rahman",
-    role: "Member • Dhanmondi",
-    rating: 5,
-    text: "The female hour at Dhanmondi made it easy to start. Trainers are respectful and know what they're doing.",
-    img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&q=80&auto=format&fit=crop",
-  },
-  {
-    name: "Mahin Chowdhury",
-    role: "Member • Tejgaon",
-    rating: 5,
-    text: "Steam bath after leg day is unreal. Membership feels genuinely worth it every month.",
+    name: "Almoin Nafis",
+    role: "Google Review • 11 months ago",
+    rating: 2,
+    text: "Maintenance of equipment and air conditioning could be improved, and it can get crowded during peak hours. Sharing honest feedback so the team can keep improving.",
     img: "https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?w=200&q=80&auto=format&fit=crop",
   },
 ];
@@ -444,28 +507,61 @@ function Landing() {
           title={<>Everything Under <span className="text-primary">One Roof.</span></>}
           sub="Purpose-built spaces for strength, endurance, recovery and everything in between."
         />
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Mobile slider */}
+        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FACILITIES.map((f, i) => (
-            <div
-              key={i}
-              className="group relative aspect-[4/5] overflow-hidden rounded-xl border border-border bg-card"
-            >
-              <img
-                src={f.img}
-                alt={f.title}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <div className="mb-1 h-px w-8 bg-primary transition-all duration-500 group-hover:w-16" />
-                <h3 className="mt-3 text-xl font-bold">{f.title}</h3>
-                <p className="mt-1.5 text-sm text-muted-foreground">{f.desc}</p>
-              </div>
-            </div>
+            <FacilityCard key={i} f={f} className="min-w-[82%] snap-start" />
           ))}
         </div>
+        {/* Desktop grid */}
+        <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
+          {FACILITIES.map((f, i) => (
+            <FacilityCard key={i} f={f} />
+          ))}
+        </div>
+        <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+          Swipe to explore →
+        </p>
       </section>
+
+      {/* PRICING */}
+      <section id="pricing" className="border-t border-border bg-card/30">
+        <div className="container-x mx-auto max-w-7xl py-24 md:py-32">
+          <SectionHeader
+            tag="Membership Plans"
+            title={<>Simple, Honest <span className="text-primary">Pricing.</span></>}
+            sub="Choose the plan that fits your goals. Couple packages available on every duration."
+          />
+
+          {/* Admission summary */}
+          <div className="mt-10 grid gap-4 rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:grid-cols-4 md:p-6">
+            <AdmissionStat label="Admission Fee" value={ADMISSION.fee} strike />
+            <AdmissionStat label="Discounted" value={ADMISSION.discounted} accent />
+            <AdmissionStat label="Monthly Fee" value={ADMISSION.monthly} />
+            <AdmissionStat label="Start With" value="৳6,500" accent />
+          </div>
+          <p className="mt-3 text-xs text-muted-foreground">
+            Pay ৳6,500 and get admission + first month (limited-time discount).
+          </p>
+
+          {/* Mobile slider */}
+          <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {PRICING.map((p, i) => (
+              <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} className="min-w-[82%] snap-start" />
+            ))}
+          </div>
+          {/* Desktop grid */}
+          <div className="mt-10 hidden gap-4 md:grid md:grid-cols-3 lg:grid-cols-5">
+            {PRICING.map((p, i) => (
+              <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} />
+            ))}
+          </div>
+          <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+            Swipe for more plans →
+          </p>
+        </div>
+      </section>
+
 
       {/* CTA */}
       <section className="relative overflow-hidden border-y border-border">
@@ -515,35 +611,21 @@ function Landing() {
           title={<>Real People. <span className="text-primary">Real Progress.</span></>}
           sub="What our community is saying about training at Automan Fitness."
         />
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Mobile slider */}
+        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {REVIEWS.map((r, i) => (
-            <div
-              key={i}
-              className="flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50"
-            >
-              <div className="flex gap-0.5 text-primary">
-                {Array.from({ length: r.rating }).map((_, k) => (
-                  <Star key={k} className="h-4 w-4 fill-current" />
-                ))}
-              </div>
-              <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/90">
-                &ldquo;{r.text}&rdquo;
-              </p>
-              <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
-                <img
-                  src={r.img}
-                  alt={r.name}
-                  loading="lazy"
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-                <div className="min-w-0">
-                  <div className="truncate text-sm font-semibold">{r.name}</div>
-                  <div className="truncate text-xs text-muted-foreground">{r.role}</div>
-                </div>
-              </div>
-            </div>
+            <ReviewCard key={i} r={r} className="min-w-[85%] snap-start" />
           ))}
         </div>
+        {/* Desktop grid */}
+        <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+          {REVIEWS.map((r, i) => (
+            <ReviewCard key={i} r={r} />
+          ))}
+        </div>
+        <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+          Swipe to read more →
+        </p>
       </section>
 
       {/* CONTACT */}
@@ -752,6 +834,17 @@ function BranchCard({
           <p className="mt-2 text-xs text-muted-foreground">*{branch.femaleNote}</p>
         )}
 
+        <div className="mt-6 overflow-hidden rounded-lg border border-border">
+          <iframe
+            src={branch.embed}
+            title={`${branch.name} on Google Maps`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="h-56 w-full grayscale-[35%] contrast-125"
+          />
+        </div>
+
+
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <a
             href={branch.maps}
@@ -809,6 +902,143 @@ function ContactCard({
       <div className="text-2xl font-bold tracking-tight">{value}</div>
       <div className="text-xs text-muted-foreground">{helper}</div>
     </a>
+  );
+}
+
+function FacilityCard({ f, className = "" }: { f: (typeof FACILITIES)[number]; className?: string }) {
+  return (
+    <div
+      className={`group relative aspect-[4/5] overflow-hidden rounded-xl border border-border bg-card ${className}`}
+    >
+      <img
+        src={f.img}
+        alt={f.title}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 p-6">
+        <div className="mb-1 h-px w-8 bg-primary transition-all duration-500 group-hover:w-16" />
+        <h3 className="mt-3 text-xl font-bold">{f.title}</h3>
+        <p className="mt-1.5 text-sm text-muted-foreground">{f.desc}</p>
+      </div>
+    </div>
+  );
+}
+
+function ReviewCard({ r, className = "" }: { r: (typeof REVIEWS)[number]; className?: string }) {
+  return (
+    <div
+      className={`flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50 ${className}`}
+    >
+      <div className="flex gap-0.5 text-primary">
+        {Array.from({ length: r.rating }).map((_, k) => (
+          <Star key={k} className="h-4 w-4 fill-current" />
+        ))}
+      </div>
+      <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/90">&ldquo;{r.text}&rdquo;</p>
+      <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
+        <img
+          src={r.img}
+          alt={r.name}
+          loading="lazy"
+          className="h-10 w-10 rounded-full object-cover"
+        />
+        <div className="min-w-0">
+          <div className="truncate text-sm font-semibold">{r.name}</div>
+          <div className="truncate text-xs text-muted-foreground">{r.role}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdmissionStat({
+  label,
+  value,
+  strike,
+  accent,
+}: {
+  label: string;
+  value: string;
+  strike?: boolean;
+  accent?: boolean;
+}) {
+  return (
+    <div>
+      <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </div>
+      <div
+        className={`mt-1 text-xl font-bold ${accent ? "text-primary" : ""} ${
+          strike ? "text-muted-foreground line-through" : ""
+        }`}
+      >
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function PricingCard({
+  plan,
+  onJoin,
+  className = "",
+}: {
+  plan: Plan;
+  onJoin: () => void;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
+        plan.highlight
+          ? "border-primary bg-primary/[0.07] shadow-[0_0_0_1px_var(--primary)]"
+          : "border-border bg-card hover:border-primary/50"
+      } ${className}`}
+    >
+      {plan.badge && (
+        <span
+          className={`absolute -top-3 left-6 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest ${
+            plan.highlight
+              ? "bg-primary text-primary-foreground"
+              : "bg-background text-primary border border-primary/40"
+          }`}
+        >
+          {plan.badge}
+        </span>
+      )}
+      <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+        {plan.name}
+      </div>
+      <div className="mt-3 flex items-baseline gap-2">
+        <span className="text-display text-4xl">{plan.price}</span>
+        {plan.original && (
+          <span className="text-sm text-muted-foreground line-through">{plan.original}</span>
+        )}
+      </div>
+      {plan.couple && (
+        <div className="mt-1 text-xs font-medium text-primary">{plan.couple}</div>
+      )}
+      <ul className="mt-5 flex-1 space-y-2.5 border-t border-border pt-5 text-sm">
+        {plan.perks.map((p, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <span className="text-foreground/90">{p}</span>
+          </li>
+        ))}
+      </ul>
+      <button
+        onClick={onJoin}
+        className={`mt-6 inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-bold uppercase tracking-wider transition-transform hover:scale-[1.02] ${
+          plan.highlight
+            ? "bg-primary text-primary-foreground"
+            : "border border-border hover:border-primary hover:text-primary"
+        }`}
+      >
+        Choose Plan <ArrowRight className="h-4 w-4" />
+      </button>
+    </div>
   );
 }
 
