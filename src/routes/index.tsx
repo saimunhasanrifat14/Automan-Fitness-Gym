@@ -19,6 +19,7 @@ import {
   Instagram,
   Youtube,
   Navigation,
+  Check,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
