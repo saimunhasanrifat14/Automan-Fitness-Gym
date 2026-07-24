@@ -905,6 +905,143 @@ function ContactCard({
   );
 }
 
+function FacilityCard({ f, className = "" }: { f: (typeof FACILITIES)[number]; className?: string }) {
+  return (
+    <div
+      className={`group relative aspect-[4/5] overflow-hidden rounded-xl border border-border bg-card ${className}`}
+    >
+      <img
+        src={f.img}
+        alt={f.title}
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 p-6">
+        <div className="mb-1 h-px w-8 bg-primary transition-all duration-500 group-hover:w-16" />
+        <h3 className="mt-3 text-xl font-bold">{f.title}</h3>
+        <p className="mt-1.5 text-sm text-muted-foreground">{f.desc}</p>
+      </div>
+    </div>
+  );
+}
+
+function ReviewCard({ r, className = "" }: { r: (typeof REVIEWS)[number]; className?: string }) {
+  return (
+    <div
+      className={`flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50 ${className}`}
+    >
+      <div className="flex gap-0.5 text-primary">
+        {Array.from({ length: r.rating }).map((_, k) => (
+          <Star key={k} className="h-4 w-4 fill-current" />
+        ))}
+      </div>
+      <p className="mt-4 flex-1 text-sm leading-relaxed text-foreground/90">&ldquo;{r.text}&rdquo;</p>
+      <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
+        <img
+          src={r.img}
+          alt={r.name}
+          loading="lazy"
+          className="h-10 w-10 rounded-full object-cover"
+        />
+        <div className="min-w-0">
+          <div className="truncate text-sm font-semibold">{r.name}</div>
+          <div className="truncate text-xs text-muted-foreground">{r.role}</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdmissionStat({
+  label,
+  value,
+  strike,
+  accent,
+}: {
+  label: string;
+  value: string;
+  strike?: boolean;
+  accent?: boolean;
+}) {
+  return (
+    <div>
+      <div className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+        {label}
+      </div>
+      <div
+        className={`mt-1 text-xl font-bold ${accent ? "text-primary" : ""} ${
+          strike ? "text-muted-foreground line-through" : ""
+        }`}
+      >
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function PricingCard({
+  plan,
+  onJoin,
+  className = "",
+}: {
+  plan: Plan;
+  onJoin: () => void;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
+        plan.highlight
+          ? "border-primary bg-primary/[0.07] shadow-[0_0_0_1px_var(--primary)]"
+          : "border-border bg-card hover:border-primary/50"
+      } ${className}`}
+    >
+      {plan.badge && (
+        <span
+          className={`absolute -top-3 left-6 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest ${
+            plan.highlight
+              ? "bg-primary text-primary-foreground"
+              : "bg-background text-primary border border-primary/40"
+          }`}
+        >
+          {plan.badge}
+        </span>
+      )}
+      <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+        {plan.name}
+      </div>
+      <div className="mt-3 flex items-baseline gap-2">
+        <span className="text-display text-4xl">{plan.price}</span>
+        {plan.original && (
+          <span className="text-sm text-muted-foreground line-through">{plan.original}</span>
+        )}
+      </div>
+      {plan.couple && (
+        <div className="mt-1 text-xs font-medium text-primary">{plan.couple}</div>
+      )}
+      <ul className="mt-5 flex-1 space-y-2.5 border-t border-border pt-5 text-sm">
+        {plan.perks.map((p, i) => (
+          <li key={i} className="flex items-start gap-2">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+            <span className="text-foreground/90">{p}</span>
+          </li>
+        ))}
+      </ul>
+      <button
+        onClick={onJoin}
+        className={`mt-6 inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-bold uppercase tracking-wider transition-transform hover:scale-[1.02] ${
+          plan.highlight
+            ? "bg-primary text-primary-foreground"
+            : "border border-border hover:border-primary hover:text-primary"
+        }`}
+      >
+        Choose Plan <ArrowRight className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
 /* ---------- Modal ---------- */
 
 function JoinModal({ onClose }: { onClose: () => void }) {
