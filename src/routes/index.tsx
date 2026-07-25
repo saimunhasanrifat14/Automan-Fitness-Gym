@@ -535,16 +535,6 @@ function Landing() {
             sub="Choose the plan that fits your goals. Couple packages available on every duration."
           />
 
-          {/* Admission summary */}
-          <div className="mt-10 grid gap-4 rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:grid-cols-4 md:p-6">
-            <AdmissionStat label="Admission Fee" value={ADMISSION.fee} strike />
-            <AdmissionStat label="Discounted" value={ADMISSION.discounted} accent />
-            <AdmissionStat label="Monthly Fee" value={ADMISSION.monthly} />
-            <AdmissionStat label="Start With" value="৳6,500" accent />
-          </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Pay ৳6,500 and get admission + first month (limited-time discount).
-          </p>
 
           {/* Mobile slider */}
           <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
