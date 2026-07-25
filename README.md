@@ -17,13 +17,21 @@ Prefer working locally? You need Node.js and npm — [install with nvm](https://
 ```sh
 git clone <this-repository-url>
 cd <repository-name>
-npm i
+npm install
 npm run dev
+```
+
+## Production build
+
+```sh
+npm run build
+npm run preview
 ```
 
 ## Built with
 
-- TanStack Start
-- TypeScript
 - React
+- JavaScript and JSX
+- React Router DOM
+- Vite
 - Tailwind CSS
