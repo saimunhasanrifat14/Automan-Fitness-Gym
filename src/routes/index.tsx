@@ -58,9 +58,49 @@ const NAV = [
   { href: "#why", label: "Why Us" },
   { href: "#branches", label: "Branches" },
   { href: "#facilities", label: "Facilities" },
+  { href: "#trainers", label: "Trainers" },
+  { href: "#gallery", label: "Gallery" },
   { href: "#pricing", label: "Pricing" },
   { href: "#reviews", label: "Reviews" },
   { href: "#contact", label: "Contact" },
+];
+
+const TRAINERS = [
+  {
+    name: "Rakib Hasan",
+    role: "Head Strength Coach",
+    exp: "10+ years coaching powerlifting, hypertrophy and strength programming.",
+    img: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Sadia Rahman",
+    role: "Women's Fitness Trainer",
+    exp: "Certified trainer specialising in fat-loss, toning and beginner-friendly programs.",
+    img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Tanvir Ahmed",
+    role: "Functional & Conditioning",
+    exp: "8+ years in functional training, mobility work and athletic conditioning.",
+    img: "https://images.unsplash.com/photo-1583500178690-f7fd39c8f6ac?w=800&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Imran Chowdhury",
+    role: "Bodybuilding Coach",
+    exp: "Competition-level bodybuilding coach — nutrition, prep and physique training.",
+    img: "https://images.unsplash.com/photo-1550345332-09e3ac987658?w=800&q=80&auto=format&fit=crop",
+  },
+];
+
+const GALLERY = [
+  "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1637666505367-2f4e3f70a3e2?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1652363722833-509b3aac287b?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1554284126-aa88f22d8b74?w=1400&q=80&auto=format&fit=crop",
 ];
 
 const HERO_IMG =
