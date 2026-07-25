@@ -858,14 +858,10 @@ function BranchCard({
         </p>
 
         <div className="mt-6 grid gap-3 border-t border-border pt-5 text-sm sm:grid-cols-2">
-          <TimeRow label="Mon – Thu" value="8:00 AM – 10:30 PM" />
+          <TimeRow label="Sat – Thu" value="8:00 AM – 10:30 PM" />
           <TimeRow label="Friday" value="5:00 PM – 10:30 PM" />
-          <TimeRow label="Sat – Sun" value="8:00 AM – 10:30 PM" />
-          <TimeRow label="Female Hour" value={branch.female} accent />
         </div>
-        {branch.femaleNote && (
-          <p className="mt-2 text-xs text-muted-foreground">*{branch.femaleNote}</p>
-        )}
+
 
 
 
