@@ -371,9 +371,9 @@ function Landing() {
                   <ChevronRight className="h-4 w-4 text-primary" />
                 </a>
               ))}
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
+            </nav>
+          </div>
+        )}
                   setModalOpen(true);
                 }}
                 className="mt-4 mb-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
