@@ -373,17 +373,19 @@ function Landing() {
               অটোম্যান ফিটনেস জিম · <span className="text-primary">Let&apos;s Live Life</span>
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <button
-                onClick={() => setModalOpen(true)}
+              <a
+                href="tel:01314495657"
                 className="group inline-flex items-center justify-center gap-2 rounded-md bg-primary px-7 py-4 text-sm font-bold uppercase tracking-wider text-primary-foreground transition-transform hover:scale-[1.03]"
               >
-                Join Now <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
+                <Phone className="h-4 w-4" /> Join Now
+              </a>
               <a
-                href="#branches"
+                href="https://www.facebook.com/afgprem"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background/40 px-7 py-4 text-sm font-bold uppercase tracking-wider backdrop-blur hover:border-primary hover:text-primary"
               >
-                Explore Our Gyms
+                <MessageCircle className="h-4 w-4" /> Chat on Messenger
               </a>
             </div>
           </div>
