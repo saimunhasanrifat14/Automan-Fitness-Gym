@@ -374,16 +374,8 @@ function Landing() {
             </nav>
           </div>
         )}
-                  setModalOpen(true);
-                }}
-                className="mt-4 mb-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
-              >
-                Join Now
-              </button>
-            </nav>
-          </div>
-        )}
       </header>
+
 
       {/* HERO */}
       <section className="relative isolate flex min-h-screen items-center overflow-hidden">
