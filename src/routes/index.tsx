@@ -558,8 +558,60 @@ function Landing() {
         </p>
       </section>
 
+      {/* TRAINERS */}
+      <section id="trainers" className="border-t border-border bg-card/30">
+        <div className="container-x mx-auto max-w-7xl py-24 md:py-32">
+          <SectionHeader
+            tag="Our Team"
+            title={<>Meet Your <span className="text-primary">Coaches.</span></>}
+            sub="Certified trainers with years of hands-on experience — ready to guide your journey."
+          />
+          {/* Mobile slider */}
+          <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {TRAINERS.map((t, i) => (
+              <TrainerCard key={i} t={t} className="min-w-[75%] snap-start" />
+            ))}
+          </div>
+          {/* Desktop grid */}
+          <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+            {TRAINERS.map((t, i) => (
+              <TrainerCard key={i} t={t} />
+            ))}
+          </div>
+          <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+            Swipe to meet more →
+          </p>
+        </div>
+      </section>
+
+      {/* GALLERY */}
+      <section id="gallery" className="container-x mx-auto max-w-7xl py-24 md:py-32">
+        <SectionHeader
+          tag="Gallery"
+          title={<>Inside <span className="text-primary">Automan.</span></>}
+          sub="A glimpse of our floor, equipment, community and events."
+        />
+        {/* Mobile slider */}
+        <div className="mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-pl-5 px-5 pt-3 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {GALLERY.map((src, i) => (
+            <div key={i} className="relative min-w-[82%] snap-start aspect-[4/3] overflow-hidden rounded-xl border border-border">
+              <img src={src} alt={`Gym gallery ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
+            </div>
+          ))}
+        </div>
+        {/* Desktop slider */}
+        <div className="mt-14 hidden gap-4 overflow-x-auto pb-4 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {GALLERY.map((src, i) => (
+            <div key={i} className="relative min-w-[340px] aspect-[4/3] overflow-hidden rounded-xl border border-border transition-transform hover:-translate-y-1">
+              <img src={src} alt={`Gym gallery ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* PRICING */}
       <section id="pricing" className="border-t border-border bg-card/30">
+
         <div className="container-x mx-auto max-w-7xl py-24 md:py-32">
           <SectionHeader
             tag="Membership Plans"
