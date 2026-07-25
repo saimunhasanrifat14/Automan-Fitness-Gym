@@ -584,7 +584,7 @@ function Landing() {
                 Join Now <ArrowRight className="h-4 w-4" />
               </button>
               <a
-                href="https://m.me/"
+                href="https://www.facebook.com/afgprem"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background/60 px-7 py-4 text-sm font-bold uppercase tracking-wider backdrop-blur hover:border-primary hover:text-primary"
@@ -650,7 +650,7 @@ function Landing() {
                 <Phone className="h-4 w-4" /> Call Now
               </a>
               <a
-                href="https://m.me/"
+                href="https://www.facebook.com/afgprem"
                 target="_blank"
                 rel="noreferrer"
                 className="col-span-full flex items-center justify-center gap-2 rounded-md border border-border bg-background py-4 text-sm font-bold uppercase tracking-wider hover:border-primary hover:text-primary"
