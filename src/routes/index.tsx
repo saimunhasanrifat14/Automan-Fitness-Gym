@@ -58,9 +58,49 @@ const NAV = [
   { href: "#why", label: "Why Us" },
   { href: "#branches", label: "Branches" },
   { href: "#facilities", label: "Facilities" },
+  { href: "#trainers", label: "Trainers" },
+  { href: "#gallery", label: "Gallery" },
   { href: "#pricing", label: "Pricing" },
   { href: "#reviews", label: "Reviews" },
   { href: "#contact", label: "Contact" },
+];
+
+const TRAINERS = [
+  {
+    name: "Rakib Hasan",
+    role: "Head Strength Coach",
+    exp: "10+ years coaching powerlifting, hypertrophy and strength programming.",
+    img: "https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Sadia Rahman",
+    role: "Women's Fitness Trainer",
+    exp: "Certified trainer specialising in fat-loss, toning and beginner-friendly programs.",
+    img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Tanvir Ahmed",
+    role: "Functional & Conditioning",
+    exp: "8+ years in functional training, mobility work and athletic conditioning.",
+    img: "https://images.unsplash.com/photo-1583500178690-f7fd39c8f6ac?w=800&q=80&auto=format&fit=crop",
+  },
+  {
+    name: "Imran Chowdhury",
+    role: "Bodybuilding Coach",
+    exp: "Competition-level bodybuilding coach — nutrition, prep and physique training.",
+    img: "https://images.unsplash.com/photo-1550345332-09e3ac987658?w=800&q=80&auto=format&fit=crop",
+  },
+];
+
+const GALLERY = [
+  "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1637666505367-2f4e3f70a3e2?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1652363722833-509b3aac287b?w=1200&q=80&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1554284126-aa88f22d8b74?w=1400&q=80&auto=format&fit=crop",
 ];
 
 const HERO_IMG =
@@ -331,19 +371,11 @@ function Landing() {
                   <ChevronRight className="h-4 w-4 text-primary" />
                 </a>
               ))}
-              <button
-                onClick={() => {
-                  setMenuOpen(false);
-                  setModalOpen(true);
-                }}
-                className="mt-4 mb-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
-              >
-                Join Now
-              </button>
             </nav>
           </div>
         )}
       </header>
+
 
       {/* HERO */}
       <section className="relative isolate flex min-h-screen items-center overflow-hidden">
@@ -510,7 +542,7 @@ function Landing() {
           sub="Purpose-built spaces for strength, endurance, recovery and everything in between."
         />
         {/* Mobile slider */}
-        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FACILITIES.map((f, i) => (
             <FacilityCard key={i} f={f} className="min-w-[82%] snap-start" />
           ))}
@@ -526,8 +558,60 @@ function Landing() {
         </p>
       </section>
 
+      {/* TRAINERS */}
+      <section id="trainers" className="border-t border-border bg-card/30">
+        <div className="container-x mx-auto max-w-7xl py-24 md:py-32">
+          <SectionHeader
+            tag="Our Team"
+            title={<>Meet Your <span className="text-primary">Coaches.</span></>}
+            sub="Certified trainers with years of hands-on experience — ready to guide your journey."
+          />
+          {/* Mobile slider */}
+          <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {TRAINERS.map((t, i) => (
+              <TrainerCard key={i} t={t} className="min-w-[75%] snap-start" />
+            ))}
+          </div>
+          {/* Desktop grid */}
+          <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+            {TRAINERS.map((t, i) => (
+              <TrainerCard key={i} t={t} />
+            ))}
+          </div>
+          <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
+            Swipe to meet more →
+          </p>
+        </div>
+      </section>
+
+      {/* GALLERY */}
+      <section id="gallery" className="container-x mx-auto max-w-7xl py-24 md:py-32">
+        <SectionHeader
+          tag="Gallery"
+          title={<>Inside <span className="text-primary">Automan.</span></>}
+          sub="A glimpse of our floor, equipment, community and events."
+        />
+        {/* Mobile slider */}
+        <div className="mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-pl-5 px-5 pt-3 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {GALLERY.map((src, i) => (
+            <div key={i} className="relative min-w-[82%] snap-start aspect-[4/3] overflow-hidden rounded-xl border border-border">
+              <img src={src} alt={`Gym gallery ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
+            </div>
+          ))}
+        </div>
+        {/* Desktop slider */}
+        <div className="mt-14 hidden gap-4 overflow-x-auto pb-4 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {GALLERY.map((src, i) => (
+            <div key={i} className="relative min-w-[340px] aspect-[4/3] overflow-hidden rounded-xl border border-border transition-transform hover:-translate-y-1">
+              <img src={src} alt={`Gym gallery ${i + 1}`} loading="lazy" className="h-full w-full object-cover" />
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* PRICING */}
       <section id="pricing" className="border-t border-border bg-card/30">
+
         <div className="container-x mx-auto max-w-7xl py-24 md:py-32">
           <SectionHeader
             tag="Membership Plans"
@@ -537,13 +621,13 @@ function Landing() {
 
 
           {/* Mobile slider */}
-          <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {PRICING.map((p, i) => (
               <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} className="min-w-[82%] snap-start" />
             ))}
           </div>
           {/* Desktop grid */}
-          <div className="mt-10 hidden gap-4 md:grid md:grid-cols-3 lg:grid-cols-5">
+          <div className="mt-10 hidden gap-4 pt-4 md:grid md:grid-cols-3 lg:grid-cols-5">
             {PRICING.map((p, i) => (
               <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} />
             ))}
@@ -604,7 +688,7 @@ function Landing() {
           sub="What our community is saying about training at Automan Fitness."
         />
         {/* Mobile slider */}
-        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {REVIEWS.map((r, i) => (
             <ReviewCard key={i} r={r} className="min-w-[85%] snap-start" />
           ))}
@@ -826,14 +910,10 @@ function BranchCard({
         </p>
 
         <div className="mt-6 grid gap-3 border-t border-border pt-5 text-sm sm:grid-cols-2">
-          <TimeRow label="Mon – Thu" value="8:00 AM – 10:30 PM" />
+          <TimeRow label="Sat – Thu" value="8:00 AM – 10:30 PM" />
           <TimeRow label="Friday" value="5:00 PM – 10:30 PM" />
-          <TimeRow label="Sat – Sun" value="8:00 AM – 10:30 PM" />
-          <TimeRow label="Female Hour" value={branch.female} accent />
         </div>
-        {branch.femaleNote && (
-          <p className="mt-2 text-xs text-muted-foreground">*{branch.femaleNote}</p>
-        )}
+
 
 
 
@@ -1021,16 +1101,22 @@ function PricingCard({
           </li>
         ))}
       </ul>
-      <button
-        onClick={onJoin}
-        className={`mt-6 inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-bold uppercase tracking-wider transition-transform hover:scale-[1.02] ${
-          plan.highlight
-            ? "bg-primary text-primary-foreground"
-            : "border border-border hover:border-primary hover:text-primary"
-        }`}
-      >
-        Choose Plan <ArrowRight className="h-4 w-4" />
-      </button>
+    </div>
+  );
+}
+
+function TrainerCard({ t, className = "" }: { t: (typeof TRAINERS)[number]; className?: string }) {
+  return (
+    <div className={`group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/60 ${className}`}>
+      <div className="relative aspect-[4/5] overflow-hidden">
+        <img src={t.img} alt={t.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+      </div>
+      <div className="p-5">
+        <h3 className="text-lg font-bold">{t.name}</h3>
+        <div className="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">{t.role}</div>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t.exp}</p>
+      </div>
     </div>
   );
 }
