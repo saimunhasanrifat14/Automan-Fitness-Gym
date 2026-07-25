@@ -373,17 +373,19 @@ function Landing() {
               অটোম্যান ফিটনেস জিম · <span className="text-primary">Let&apos;s Live Life</span>
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <button
-                onClick={() => setModalOpen(true)}
+              <a
+                href="tel:01314495657"
                 className="group inline-flex items-center justify-center gap-2 rounded-md bg-primary px-7 py-4 text-sm font-bold uppercase tracking-wider text-primary-foreground transition-transform hover:scale-[1.03]"
               >
-                Join Now <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
+                <Phone className="h-4 w-4" /> Join Now
+              </a>
               <a
-                href="#branches"
+                href="https://www.facebook.com/afgprem"
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background/40 px-7 py-4 text-sm font-bold uppercase tracking-wider backdrop-blur hover:border-primary hover:text-primary"
               >
-                Explore Our Gyms
+                <MessageCircle className="h-4 w-4" /> Chat on Messenger
               </a>
             </div>
           </div>
@@ -533,16 +535,6 @@ function Landing() {
             sub="Choose the plan that fits your goals. Couple packages available on every duration."
           />
 
-          {/* Admission summary */}
-          <div className="mt-10 grid gap-4 rounded-2xl border border-primary/30 bg-primary/5 p-5 sm:grid-cols-4 md:p-6">
-            <AdmissionStat label="Admission Fee" value={ADMISSION.fee} strike />
-            <AdmissionStat label="Discounted" value={ADMISSION.discounted} accent />
-            <AdmissionStat label="Monthly Fee" value={ADMISSION.monthly} />
-            <AdmissionStat label="Start With" value="৳6,500" accent />
-          </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Pay ৳6,500 and get admission + first month (limited-time discount).
-          </p>
 
           {/* Mobile slider */}
           <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -592,7 +584,7 @@ function Landing() {
                 Join Now <ArrowRight className="h-4 w-4" />
               </button>
               <a
-                href="https://m.me/"
+                href="https://www.facebook.com/afgprem"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background/60 px-7 py-4 text-sm font-bold uppercase tracking-wider backdrop-blur hover:border-primary hover:text-primary"
@@ -658,7 +650,7 @@ function Landing() {
                 <Phone className="h-4 w-4" /> Call Now
               </a>
               <a
-                href="https://m.me/"
+                href="https://www.facebook.com/afgprem"
                 target="_blank"
                 rel="noreferrer"
                 className="col-span-full flex items-center justify-center gap-2 rounded-md border border-border bg-background py-4 text-sm font-bold uppercase tracking-wider hover:border-primary hover:text-primary"
@@ -668,19 +660,28 @@ function Landing() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {BRANCHES.map((b) => (
-                <div key={b.id} className="rounded-xl border border-border bg-card p-6">
-                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary">
-                    <MapPin className="h-3.5 w-3.5" /> {b.name}
+                <div key={b.id} className="overflow-hidden rounded-xl border border-border bg-card">
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary">
+                      <MapPin className="h-3.5 w-3.5" /> {b.name}
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{b.address}</p>
+                    <a
+                      href={b.maps}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary"
+                    >
+                      Open in Maps <Navigation className="h-3.5 w-3.5" />
+                    </a>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{b.address}</p>
-                  <a
-                    href={b.maps}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary"
-                  >
-                    Open in Maps <Navigation className="h-3.5 w-3.5" />
-                  </a>
+                  <iframe
+                    src={b.embed}
+                    title={`${b.name} on Google Maps`}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="h-56 w-full border-t border-border grayscale-[35%] contrast-125"
+                  />
                 </div>
               ))}
             </div>
@@ -834,15 +835,7 @@ function BranchCard({
           <p className="mt-2 text-xs text-muted-foreground">*{branch.femaleNote}</p>
         )}
 
-        <div className="mt-6 overflow-hidden rounded-lg border border-border">
-          <iframe
-            src={branch.embed}
-            title={`${branch.name} on Google Maps`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-56 w-full grayscale-[35%] contrast-125"
-          />
-        </div>
+
 
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
