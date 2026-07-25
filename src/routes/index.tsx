@@ -542,7 +542,7 @@ function Landing() {
           sub="Purpose-built spaces for strength, endurance, recovery and everything in between."
         />
         {/* Mobile slider */}
-        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FACILITIES.map((f, i) => (
             <FacilityCard key={i} f={f} className="min-w-[82%] snap-start" />
           ))}
@@ -569,7 +569,7 @@ function Landing() {
 
 
           {/* Mobile slider */}
-          <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {PRICING.map((p, i) => (
               <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} className="min-w-[82%] snap-start" />
             ))}
@@ -636,7 +636,7 @@ function Landing() {
           sub="What our community is saying about training at Automan Fitness."
         />
         {/* Mobile slider */}
-        <div className="mt-10 -mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-pl-5 px-5 pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {REVIEWS.map((r, i) => (
             <ReviewCard key={i} r={r} className="min-w-[85%] snap-start" />
           ))}
