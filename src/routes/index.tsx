@@ -575,7 +575,7 @@ function Landing() {
             ))}
           </div>
           {/* Desktop grid */}
-          <div className="mt-10 hidden gap-4 md:grid md:grid-cols-3 lg:grid-cols-5">
+          <div className="mt-10 hidden gap-4 pt-4 md:grid md:grid-cols-3 lg:grid-cols-5">
             {PRICING.map((p, i) => (
               <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} />
             ))}
