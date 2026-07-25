@@ -660,19 +660,28 @@ function Landing() {
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               {BRANCHES.map((b) => (
-                <div key={b.id} className="rounded-xl border border-border bg-card p-6">
-                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary">
-                    <MapPin className="h-3.5 w-3.5" /> {b.name}
+                <div key={b.id} className="overflow-hidden rounded-xl border border-border bg-card">
+                  <div className="p-6">
+                    <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-primary">
+                      <MapPin className="h-3.5 w-3.5" /> {b.name}
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{b.address}</p>
+                    <a
+                      href={b.maps}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary"
+                    >
+                      Open in Maps <Navigation className="h-3.5 w-3.5" />
+                    </a>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{b.address}</p>
-                  <a
-                    href={b.maps}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary"
-                  >
-                    Open in Maps <Navigation className="h-3.5 w-3.5" />
-                  </a>
+                  <iframe
+                    src={b.embed}
+                    title={`${b.name} on Google Maps`}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="h-56 w-full border-t border-border grayscale-[35%] contrast-125"
+                  />
                 </div>
               ))}
             </div>
