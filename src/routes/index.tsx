@@ -835,15 +835,7 @@ function BranchCard({
           <p className="mt-2 text-xs text-muted-foreground">*{branch.femaleNote}</p>
         )}
 
-        <div className="mt-6 overflow-hidden rounded-lg border border-border">
-          <iframe
-            src={branch.embed}
-            title={`${branch.name} on Google Maps`}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="h-56 w-full grayscale-[35%] contrast-125"
-          />
-        </div>
+
 
 
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
