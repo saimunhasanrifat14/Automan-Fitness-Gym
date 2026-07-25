@@ -1049,16 +1049,22 @@ function PricingCard({
           </li>
         ))}
       </ul>
-      <button
-        onClick={onJoin}
-        className={`mt-6 inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-bold uppercase tracking-wider transition-transform hover:scale-[1.02] ${
-          plan.highlight
-            ? "bg-primary text-primary-foreground"
-            : "border border-border hover:border-primary hover:text-primary"
-        }`}
-      >
-        Choose Plan <ArrowRight className="h-4 w-4" />
-      </button>
+    </div>
+  );
+}
+
+function TrainerCard({ t, className = "" }: { t: (typeof TRAINERS)[number]; className?: string }) {
+  return (
+    <div className={`group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/60 ${className}`}>
+      <div className="relative aspect-[4/5] overflow-hidden">
+        <img src={t.img} alt={t.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+      </div>
+      <div className="p-5">
+        <h3 className="text-lg font-bold">{t.name}</h3>
+        <div className="mt-1 text-xs font-semibold uppercase tracking-widest text-primary">{t.role}</div>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t.exp}</p>
+      </div>
     </div>
   );
 }
