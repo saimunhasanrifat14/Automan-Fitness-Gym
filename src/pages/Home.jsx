@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   Dumbbell,
   Menu,
@@ -18,6 +19,24 @@ import {
   Navigation,
   Check,
 } from "lucide-react";
+import {
+  AnimatedCounter,
+  Reveal,
+  ScrollProgress,
+  StaggerContainer,
+  StaggerItem,
+} from "../components/animations";
+
+const premiumEase = [0.22, 1, 0.36, 1];
+const heroItem = {
+  hidden: { opacity: 0, y: 24, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.62, ease: premiumEase },
+  },
+};
 
 /* ---------- Data ---------- */
 
@@ -245,6 +264,10 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const status = useOpenStatus();
+  const menuButtonRef = useRef(null);
+  const modalTriggerRef = useRef(null);
+  const wasModalOpenRef = useRef(false);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -260,10 +283,36 @@ export default function Home() {
     };
   }, [menuOpen, modalOpen]);
 
+  useEffect(() => {
+    if (modalOpen) modalTriggerRef.current = document.activeElement;
+    if (!modalOpen && wasModalOpenRef.current) {
+      requestAnimationFrame(() => modalTriggerRef.current?.focus());
+    }
+    wasModalOpenRef.current = modalOpen;
+  }, [modalOpen]);
+
+  useEffect(() => {
+    if (!menuOpen && !modalOpen) return undefined;
+    const onKeyDown = (event) => {
+      if (event.key !== "Escape") return;
+      if (modalOpen) setModalOpen(false);
+      if (menuOpen) {
+        setMenuOpen(false);
+        requestAnimationFrame(() => menuButtonRef.current?.focus());
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [menuOpen, modalOpen]);
+
   return (
     <div id="home" className="min-h-screen bg-background text-foreground">
+      <ScrollProgress />
       {/* NAV */}
-      <header
+      <motion.header
+        initial={reducedMotion ? false : { opacity: 0, y: -18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: premiumEase }}
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled ? "bg-background/85 backdrop-blur-lg border-b border-border" : "bg-transparent"
         }`}
@@ -284,53 +333,79 @@ export default function Home() {
               <a
                 key={n.href}
                 href={n.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                className="nav-link text-sm font-medium text-muted-foreground hover:text-primary"
               >
                 {n.label}
               </a>
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <button
+            <motion.button
               onClick={() => setModalOpen(true)}
-              className="hidden rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03] sm:inline-flex"
+              whileHover={{ y: -2, scale: 1.02 }}
+              whileTap={{ y: 0, scale: 0.97 }}
+              className="hidden rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground sm:inline-flex"
             >
               Join Now
-            </button>
-            <button
+            </motion.button>
+            <motion.button
+              ref={menuButtonRef}
               type="button"
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation"
               onClick={() => setMenuOpen((v) => !v)}
+              whileTap={{ scale: 0.92 }}
               className="grid h-10 w-10 place-items-center rounded-md border border-border lg:hidden"
             >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={menuOpen ? "close" : "menu"}
+                  initial={{ opacity: 0, rotate: -45, scale: 0.7 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={{ opacity: 0, rotate: 45, scale: 0.7 }}
+                  transition={{ duration: 0.18 }}
+                >
+                  {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </motion.span>
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
         {/* Mobile menu */}
-        {menuOpen && (
-          <div id="mobile-navigation" className="border-t border-border bg-background lg:hidden">
-            <nav
-              aria-label="Mobile navigation"
-              className="container-x mx-auto flex max-w-7xl flex-col py-3"
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              id="mobile-navigation"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.28, ease: premiumEase }}
+              className="overflow-hidden border-t border-border bg-background lg:hidden"
             >
-              {NAV.map((n) => (
-                <a
-                  key={n.href}
-                  href={n.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex items-center justify-between border-b border-border/60 py-3 text-base font-medium"
-                >
-                  {n.label}
-                  <ChevronRight className="h-4 w-4 text-primary" />
-                </a>
-              ))}
-            </nav>
-          </div>
-        )}
-      </header>
+              <nav
+                aria-label="Mobile navigation"
+                className="container-x mx-auto flex max-w-7xl flex-col py-3"
+              >
+                {NAV.map((n, index) => (
+                  <motion.a
+                    key={n.href}
+                    href={n.href}
+                    onClick={() => setMenuOpen(false)}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: reducedMotion ? 0 : 0.04 * index }}
+                    className="flex items-center justify-between border-b border-border/60 py-3 text-base font-medium"
+                  >
+                    {n.label}
+                    <ChevronRight className="h-4 w-4 text-primary" />
+                  </motion.a>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
 
       <main>
         {/* HERO */}
@@ -338,11 +413,14 @@ export default function Home() {
           aria-labelledby="home-heading"
           className="relative isolate flex min-h-screen items-center overflow-hidden"
         >
-          <img
+          <motion.img
             src={HERO_IMG}
             srcSet={imageSrcSet(HERO_IMG, [640, 960, 1280, 1600, 2000])}
             sizes="100vw"
             alt="Modern gym floor with strength-training equipment"
+            initial={reducedMotion ? false : { opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.1, delay: 0.12, ease: premiumEase }}
             className="absolute inset-0 -z-10 h-full w-full object-cover"
             width="2000"
             height="1333"
@@ -353,73 +431,105 @@ export default function Home() {
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/70 via-background/60 to-background" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-background/90 via-background/40 to-transparent" />
           <div className="container-x mx-auto w-full max-w-7xl pt-32 pb-24 md:pt-40 md:pb-32">
-            <div className="max-w-3xl animate-fade-up">
-              <div className="mb-6 inline-flex items-center gap-2 border-l-2 border-primary pl-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: {
+                  transition: { staggerChildren: reducedMotion ? 0 : 0.1, delayChildren: 0.28 },
+                },
+              }}
+              className="max-w-3xl"
+            >
+              <motion.div
+                variants={heroItem}
+                className="mb-6 inline-flex items-center gap-2 border-l-2 border-primary pl-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary"
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
                 Automan Fitness Gym
-              </div>
-              <h1
+              </motion.div>
+              <motion.h1
+                variants={heroItem}
                 id="home-heading"
                 className="text-display text-5xl uppercase sm:text-6xl md:text-7xl lg:text-8xl"
               >
                 Build Your <br />
                 <span className="text-primary">Strongest</span> Self.
-              </h1>
-              <p className="mt-8 max-w-xl text-base text-muted-foreground sm:text-lg">
+              </motion.h1>
+              <motion.p
+                variants={heroItem}
+                className="mt-8 max-w-xl text-base text-muted-foreground sm:text-lg"
+              >
                 Dhaka&apos;s modern fitness destination for people who are serious about their
                 health, strength, and lifestyle.
-              </p>
-              <p className="mt-2 font-display text-base text-foreground/80">
+              </motion.p>
+              <motion.p
+                variants={heroItem}
+                className="mt-2 font-display text-base text-foreground/80"
+              >
                 অটোম্যান ফিটনেস জিম · <span className="text-primary">Let&apos;s Live Life</span>
-              </p>
-              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-                <button
+              </motion.p>
+              <motion.div variants={heroItem} className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <motion.button
                   type="button"
                   onClick={() => setModalOpen(true)}
-                  className="group inline-flex items-center justify-center gap-2 rounded-md bg-primary px-7 py-4 text-sm font-bold uppercase tracking-wider text-primary-foreground transition-transform hover:scale-[1.03]"
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ y: 0, scale: 0.97 }}
+                  className="group inline-flex items-center justify-center gap-2 rounded-md bg-primary px-7 py-4 text-sm font-bold uppercase tracking-wider text-primary-foreground"
                 >
-                  Join Now <ArrowRight className="h-4 w-4" />
-                </button>
-                <a
+                  Join Now{" "}
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </motion.button>
+                <motion.a
                   href="https://www.facebook.com/afgprem"
                   target="_blank"
                   rel="noreferrer"
+                  whileHover={{ y: -2, scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
                   className="inline-flex items-center justify-center gap-2 rounded-md border border-border bg-background/40 px-7 py-4 text-sm font-bold uppercase tracking-wider backdrop-blur hover:border-primary hover:text-primary"
                 >
                   <MessageCircle className="h-4 w-4" /> Chat on Messenger
-                </a>
-              </div>
-            </div>
+                </motion.a>
+              </motion.div>
+            </motion.div>
           </div>
           {/* Scroll hint */}
-          <div className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, y: reducedMotion ? 0 : [0, 5, 0] }}
+            transition={{
+              opacity: { delay: 1.1 },
+              y: { duration: 2.2, repeat: reducedMotion ? 0 : Infinity, ease: "easeInOut" },
+            }}
+            className="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex"
+          >
             Scroll
             <span className="relative h-10 w-px overflow-hidden bg-border">
               <span className="absolute inset-x-0 top-0 h-4 bg-primary animate-scroll-hint" />
             </span>
-          </div>
+          </motion.div>
         </section>
 
         {/* STATS */}
         <section className="border-y border-border bg-card/50">
-          <div className="container-x mx-auto grid max-w-7xl grid-cols-2 divide-y divide-border md:grid-cols-4 md:divide-x md:divide-y-0">
+          <StaggerContainer className="container-x mx-auto grid max-w-7xl grid-cols-2 divide-y divide-border md:grid-cols-4 md:divide-x md:divide-y-0">
             {[
               { k: "02", v: "Premium Locations" },
               { k: "100+", v: "Modern Equipment" },
               { k: "10+", v: "Certified Trainers" },
               { k: "24/7", v: "Locker & Steam Bath" },
             ].map((s, i) => (
-              <div key={i} className="px-4 py-8 md:px-8 md:py-10">
+              <StaggerItem key={i} className="px-4 py-8 md:px-8 md:py-10">
                 <div className="flex items-baseline gap-1 text-display text-5xl md:text-6xl">
-                  <span>{s.k}</span>
+                  <AnimatedCounter value={s.k} />
                   <span className="text-primary">.</span>
                 </div>
                 <div className="mt-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   {s.v}
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </section>
 
         {/* WHY US */}
@@ -433,7 +543,7 @@ export default function Home() {
             }
             sub="Everything you need to make your fitness journey stronger, smarter, and more consistent."
           />
-          <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <StaggerContainer className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 icon: Dumbbell,
@@ -456,7 +566,7 @@ export default function Home() {
                 d: "Clean, comfortable and hygienic environment to make every workout better.",
               },
             ].map((f, i) => (
-              <div
+              <StaggerItem
                 key={i}
                 className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/60"
               >
@@ -466,9 +576,9 @@ export default function Home() {
                 <h3 className="text-lg font-semibold">{f.t}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.d}</p>
                 <div className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </section>
 
         {/* BRANCHES */}
@@ -483,7 +593,7 @@ export default function Home() {
               }
               sub="Two premium locations. One powerful fitness experience."
             />
-            <div className="mt-14 grid gap-6 lg:grid-cols-2">
+            <StaggerContainer className="mt-14 grid gap-6 lg:grid-cols-2">
               {BRANCHES.map((b) => (
                 <BranchCard
                   key={b.id}
@@ -492,10 +602,10 @@ export default function Home() {
                   onJoin={() => setModalOpen(true)}
                 />
               ))}
-            </div>
+            </StaggerContainer>
 
             {/* Ramadan */}
-            <div className="mt-10 flex flex-col items-start gap-4 rounded-xl border border-primary/30 bg-primary/5 p-6 md:flex-row md:items-center md:justify-between md:p-8">
+            <Reveal className="mt-10 flex flex-col items-start gap-4 rounded-xl border border-primary/30 bg-primary/5 p-6 md:flex-row md:items-center md:justify-between md:p-8">
               <div className="flex items-start gap-4">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-primary text-primary-foreground">
                   <Clock className="h-5 w-5" />
@@ -510,7 +620,7 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </section>
 
@@ -526,17 +636,20 @@ export default function Home() {
             sub="Purpose-built spaces for strength, endurance, recovery and everything in between."
           />
           {/* Mobile slider */}
-          <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <StaggerContainer
+            stagger={0.06}
+            className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
             {FACILITIES.map((f, i) => (
               <FacilityCard key={i} f={f} className="min-w-[82%] snap-start" />
             ))}
-          </div>
+          </StaggerContainer>
           {/* Desktop grid */}
-          <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
+          <StaggerContainer className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-3">
             {FACILITIES.map((f, i) => (
               <FacilityCard key={i} f={f} />
             ))}
-          </div>
+          </StaggerContainer>
           <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
             Swipe to explore →
           </p>
@@ -555,17 +668,20 @@ export default function Home() {
               sub="Certified trainers with years of hands-on experience — ready to guide your journey."
             />
             {/* Mobile slider */}
-            <div className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <StaggerContainer
+              stagger={0.06}
+              className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pt-5 pb-4 md:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
               {TRAINERS.map((t, i) => (
                 <TrainerCard key={i} t={t} className="min-w-[75%] snap-start" />
               ))}
-            </div>
+            </StaggerContainer>
             {/* Desktop grid */}
-            <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+            <StaggerContainer className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
               {TRAINERS.map((t, i) => (
                 <TrainerCard key={i} t={t} />
               ))}
-            </div>
+            </StaggerContainer>
             <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
               Swipe to meet more →
             </p>
@@ -605,9 +721,12 @@ export default function Home() {
             ))}
           </div>
           {/* Desktop slider */}
-          <div className="mt-14 hidden gap-4 overflow-x-auto pb-4 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <StaggerContainer
+            stagger={0.06}
+            className="mt-14 hidden gap-4 overflow-x-auto pb-4 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
             {GALLERY.map((src, i) => (
-              <div
+              <StaggerItem
                 key={i}
                 className="relative min-w-[340px] aspect-[4/3] overflow-hidden rounded-xl border border-border transition-transform hover:-translate-y-1"
               >
@@ -622,9 +741,9 @@ export default function Home() {
                   decoding="async"
                   className="h-full w-full object-cover"
                 />
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </section>
 
         {/* PRICING */}
@@ -652,11 +771,14 @@ export default function Home() {
               ))}
             </div>
             {/* Desktop grid */}
-            <div className="mt-10 hidden gap-4 pt-4 md:grid md:grid-cols-3 lg:grid-cols-5">
+            <StaggerContainer
+              stagger={0.07}
+              className="mt-10 hidden gap-4 pt-4 md:grid md:grid-cols-3 lg:grid-cols-5"
+            >
               {PRICING.map((p, i) => (
                 <PricingCard key={i} plan={p} onJoin={() => setModalOpen(true)} />
               ))}
-            </div>
+            </StaggerContainer>
             <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
               Swipe for more plans →
             </p>
@@ -681,11 +803,11 @@ export default function Home() {
             ))}
           </div>
           {/* Desktop grid */}
-          <div className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+          <StaggerContainer className="mt-14 hidden gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
             {REVIEWS.map((r, i) => (
               <ReviewCard key={i} r={r} />
             ))}
-          </div>
+          </StaggerContainer>
           <p className="mt-3 text-center text-xs uppercase tracking-widest text-muted-foreground md:hidden">
             Swipe to read more →
           </p>
@@ -704,8 +826,8 @@ export default function Home() {
               sub="Reach out — we're happy to answer any questions about membership, timings, or training."
             />
 
-            <div className="mt-14 grid gap-6 lg:grid-cols-2">
-              <div className="grid gap-4 sm:grid-cols-2">
+            <StaggerContainer className="mt-14 grid gap-6 lg:grid-cols-2">
+              <StaggerItem className="grid gap-4 sm:grid-cols-2">
                 <ContactCard
                   label="Main Phone"
                   value="01314-495657"
@@ -732,8 +854,8 @@ export default function Home() {
                 >
                   <MessageCircle className="h-4 w-4" /> Chat on Messenger
                 </a>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              </StaggerItem>
+              <StaggerItem className="grid gap-4 sm:grid-cols-2">
                 {BRANCHES.map((b) => (
                   <div
                     key={b.id}
@@ -764,8 +886,8 @@ export default function Home() {
                     />
                   </div>
                 ))}
-              </div>
-            </div>
+              </StaggerItem>
+            </StaggerContainer>
           </div>
         </section>
       </main>
@@ -773,8 +895,8 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="border-t border-border bg-background">
         <div className="container-x mx-auto max-w-7xl py-16">
-          <div className="grid gap-10 md:grid-cols-4">
-            <div className="md:col-span-2">
+          <StaggerContainer className="grid gap-10 md:grid-cols-4" stagger={0.08}>
+            <StaggerItem className="md:col-span-2">
               <div className="flex items-center gap-2.5">
                 <img
                   src="/Profile.jpeg"
@@ -799,8 +921,8 @@ export default function Home() {
                   <Facebook className="h-4 w-4" />
                 </a>
               </div>
-            </div>
-            <div>
+            </StaggerItem>
+            <StaggerItem>
               <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Explore
               </div>
@@ -813,8 +935,8 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-            </div>
-            <div>
+            </StaggerItem>
+            <StaggerItem>
               <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Reach Us
               </div>
@@ -835,8 +957,8 @@ export default function Home() {
                 <li>Tejgaon</li>
                 <li>Dhanmondi</li>
               </ul>
-            </div>
-          </div>
+            </StaggerItem>
+          </StaggerContainer>
           <div className="mt-14 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
             <p>© 2026 Automan Fitness Gym. All rights reserved.</p>
             <p>অটোম্যান ফিটনেস জিম</p>
@@ -845,7 +967,9 @@ export default function Home() {
       </footer>
 
       {/* MODAL */}
-      {modalOpen && <JoinModal onClose={() => setModalOpen(false)} />}
+      <AnimatePresence>
+        {modalOpen && <JoinModal onClose={() => setModalOpen(false)} />}
+      </AnimatePresence>
     </div>
   );
 }
@@ -854,19 +978,23 @@ export default function Home() {
 
 function SectionHeader({ tag, title, sub }) {
   return (
-    <div className="max-w-3xl">
-      <div className="mb-5 inline-flex items-center gap-2 border-l-2 border-primary pl-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
+    <StaggerContainer className="max-w-3xl" stagger={0.1}>
+      <StaggerItem className="mb-5 inline-flex items-center gap-2 border-l-2 border-primary pl-3 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
         {tag}
-      </div>
-      <h2 className="text-display text-4xl uppercase sm:text-5xl md:text-6xl">{title}</h2>
-      <p className="mt-5 text-base text-muted-foreground sm:text-lg">{sub}</p>
-    </div>
+      </StaggerItem>
+      <StaggerItem as="h2" className="text-display text-4xl uppercase sm:text-5xl md:text-6xl">
+        {title}
+      </StaggerItem>
+      <StaggerItem as="p" className="mt-5 text-base text-muted-foreground sm:text-lg">
+        {sub}
+      </StaggerItem>
+    </StaggerContainer>
   );
 }
 
 function BranchCard({ branch, status, onJoin }) {
   return (
-    <div className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:border-primary/60">
+    <StaggerItem className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/60">
       <div className="relative aspect-[16/10] overflow-hidden">
         <img
           src={branch.image}
@@ -918,7 +1046,7 @@ function BranchCard({ branch, status, onJoin }) {
           </button>
         </div>
       </div>
-    </div>
+    </StaggerItem>
   );
 }
 
@@ -953,7 +1081,7 @@ function ContactCard({ label, value, helper, href }) {
 
 function FacilityCard({ f, className = "" }) {
   return (
-    <div
+    <StaggerItem
       className={`group relative aspect-[4/5] overflow-hidden rounded-xl border border-border bg-card ${className}`}
     >
       <img
@@ -973,13 +1101,13 @@ function FacilityCard({ f, className = "" }) {
         <h3 className="mt-3 text-xl font-bold">{f.title}</h3>
         <p className="mt-1.5 text-sm text-muted-foreground">{f.desc}</p>
       </div>
-    </div>
+    </StaggerItem>
   );
 }
 
 function ReviewCard({ r, className = "" }) {
   return (
-    <div
+    <StaggerItem
       className={`flex flex-col rounded-xl border border-border bg-card p-6 transition-colors hover:border-primary/50 ${className}`}
     >
       <div className="flex gap-0.5 text-primary">
@@ -1005,7 +1133,7 @@ function ReviewCard({ r, className = "" }) {
           <div className="truncate text-xs text-muted-foreground">{r.role}</div>
         </div>
       </div>
-    </div>
+    </StaggerItem>
   );
 }
 
@@ -1028,7 +1156,8 @@ function AdmissionStat({ label, value, strike, accent }) {
 
 function PricingCard({ plan, onJoin, className = "" }) {
   return (
-    <div
+    <StaggerItem
+      featured={plan.highlight}
       className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
         plan.highlight
           ? "border-primary bg-primary/[0.07] shadow-[0_0_0_1px_var(--primary)]"
@@ -1064,13 +1193,16 @@ function PricingCard({ plan, onJoin, className = "" }) {
           </li>
         ))}
       </ul>
-    </div>
+    </StaggerItem>
   );
 }
 
 function TrainerCard({ t, className = "" }) {
   return (
-    <div className={`group flex flex-col items-center px-3 py-5 text-center ${className}`}>
+    <StaggerItem
+      whileHover={{ y: -4 }}
+      className={`group flex flex-col items-center px-3 py-5 text-center ${className}`}
+    >
       <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-full border-2 border-primary/40 p-1 transition-colors group-hover:border-primary sm:h-44 sm:w-44">
         <img
           src={t.img}
@@ -1090,7 +1222,7 @@ function TrainerCard({ t, className = "" }) {
           {t.role}
         </div>
       </div>
-    </div>
+    </StaggerItem>
   );
 }
 
@@ -1164,13 +1296,26 @@ function JoinModal({ onClose }) {
   };
 
   return (
-    <div
+    <motion.div
       role="dialog"
       aria-modal="true"
       aria-labelledby="join-modal-title"
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-background/80 px-4 backdrop-blur animate-fade-in-slow"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-background/80 px-4 backdrop-blur"
     >
-      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
+      <motion.div
+        initial={{ opacity: 0, y: 18, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.98 }}
+        transition={{ duration: 0.32, ease: premiumEase }}
+        className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-2xl"
+      >
         <button
           onClick={onClose}
           aria-label="Close"
@@ -1305,8 +1450,8 @@ function JoinModal({ onClose }) {
             `}</style>
           </form>
         )}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
