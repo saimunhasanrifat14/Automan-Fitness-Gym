@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
 import {
   Dumbbell,
   Menu,
@@ -55,7 +55,7 @@ const TRAINERS = [
   {
     name: "Tanvir Ahmed",
     role: "Functional & Conditioning",
-    img: "https://images.unsplash.com/photo-1583500178690-f7fd39c8f6ac?w=800&q=80&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1711006366881-5076ba350008?w=800&q=80&auto=format&fit=crop",
   },
   {
     name: "Imran Chowdhury",
@@ -65,14 +65,14 @@ const TRAINERS = [
 ];
 
 const GALLERY = [
-  "/Gallery1.jpeg",
-  "/Gallery2.jpeg",
-  "/Gallery3.jpeg",
-  "/Gallery4.jpeg",
-  "/Gallery5.jpeg",
-  "/Gallery6.jpeg",
-  "/Gallery7.jpeg",
-  "/Gallery8.jpeg",
+  "/Gallery1.webp",
+  "/Gallery2.webp",
+  "/Gallery3.webp",
+  "/Gallery4.webp",
+  "/Gallery5.webp",
+  "/Gallery6.webp",
+  "/Gallery7.webp",
+  "/Gallery8.webp",
 ];
 
 const GALLERY_ALTS = [
@@ -86,7 +86,18 @@ const GALLERY_ALTS = [
   "Open gym floor prepared for fitness training",
 ];
 
-const HERO_IMG = "/Gallery1.jpeg";
+const GALLERY_ASPECTS = [
+  "aspect-[4/3]",
+  "aspect-[3/4]",
+  "aspect-square",
+  "aspect-[4/5]",
+  "aspect-[3/4]",
+  "aspect-[4/3]",
+  "aspect-[4/5]",
+  "aspect-square",
+];
+
+const HERO_IMG = "/Gallery1.webp";
 
 const BRANCHES = [
   {
@@ -98,7 +109,7 @@ const BRANCHES = [
     maps: "https://www.google.com/maps/search/?api=1&query=Automan+Fitness+Gym+Northern+SR+Tower+Tejgaon+Dhaka",
     embed:
       "https://www.google.com/maps?q=Automan+Fitness+Gym+Northern+SR+Tower+Tejgaon+Dhaka&output=embed",
-    image: "/TejgaonBranch.jpeg",
+    image: "/TejgaonBranch.webp",
   },
   {
     id: "dhanmondi",
@@ -109,7 +120,7 @@ const BRANCHES = [
     maps: "https://www.google.com/maps/search/?api=1&query=Automan+Fitness+Gym+Dhanmondi+House+39A+Road+8+Sheikh+Jamal+Field+Dhaka",
     embed:
       "https://www.google.com/maps?q=Automan+Fitness+Gym+Dhanmondi+House+39A+Road+8+Sheikh+Jamal+Field+Dhaka&output=embed",
-    image: "/DhanmondiBranch.jpeg",
+    image: "/DhanmondiBranch.webp",
   },
 ];
 
@@ -117,32 +128,32 @@ const FACILITIES = [
   {
     title: "Strength Training",
     desc: "Heavy racks, plates and platforms built for serious lifters.",
-    img: "/StrengthTraining.jpeg",
+    img: "/StrengthTraining.webp",
   },
   {
     title: "Cardio Zone",
     desc: "Modern treadmills, bikes and rowers for endurance work.",
-    img: "/CardioZone.jpeg",
+    img: "/CardioZone.webp",
   },
   {
     title: "Free Weights",
     desc: "Full dumbbell and barbell range for compound training.",
-    img: "/FreeWeights.jpeg",
+    img: "/FreeWeights.webp",
   },
   {
     title: "Functional Training",
     desc: "Open floor for mobility, kettlebells and athletic conditioning.",
-    img: "/FunctionalTraining.jpeg",
+    img: "/FunctionalTraining.webp",
   },
   {
     title: "Locker Facilities",
     desc: "Secure lockers so you train with peace of mind.",
-    img: "/LockerFacilities.jpeg",
+    img: "/LockerFacilities.webp",
   },
   {
     title: "Steam Bath",
     desc: "Recover, relax and reset after every session.",
-    img: "/SteamBath.jpeg",
+    img: "/SteamBath.webp",
   },
 ];
 
@@ -198,28 +209,28 @@ const REVIEWS = [
     role: "Google Review • 6 months ago",
     rating: 5,
     text: "Best gym in the Dhanmondi area. Uncrowded. Suggestion: it should open at 6 AM (not 8 AM) on weekdays, and on Fridays it should be like any other day and not open at 5 PM which is too late.",
-    img: "/review1.png",
+    img: "/review1.webp",
   },
   {
     name: "Nafis Shadman Quader",
     role: "Google Review • a year ago",
     rating: 5,
     text: "I've been coming to this gym for a while and overall it's been a good experience. The equipment is modern and well maintained, and the crowd is respectful and educated, which creates a pleasant atmosphere. The support staff are polite and helpful.",
-    img: "/review2.png",
+    img: "/review2.webp",
   },
   {
     name: "Sarah Nehrina Nazim",
     role: "Google Review • a year ago",
     rating: 5,
     text: "Small gestures of humbleness and kind words make it easy to maintain a relationship with the gym and continue coming back even after 5 years. Appreciate that the owner remembers his members after long gaps.",
-    img: "/review3.png",
+    img: "/review3.webp",
   },
   {
     name: "Almoin Nafis",
     role: "Google Review • 11 months ago",
     rating: 2,
     text: "Maintenance of equipment and air conditioning could be improved, and it can get crowded during peak hours. Sharing honest feedback so the team can keep improving.",
-    img: "/review4.png",
+    img: "/review4.webp",
   },
 ];
 
@@ -313,7 +324,7 @@ export default function Home() {
         <div className="container-x mx-auto flex h-16 max-w-7xl items-center justify-between md:h-20">
           <a href="#home" className="flex min-w-0 items-center gap-2.5">
             <img
-              src="/Profile.jpeg"
+              src="/Profile.webp"
               alt="Automan Fitness Gym logo"
               className="h-10 w-10 shrink-0 rounded-md object-cover"
             />
@@ -713,20 +724,20 @@ export default function Home() {
               </div>
             ))}
           </div>
-          {/* Desktop slider */}
+          {/* Desktop masonry gallery */}
           <StaggerContainer
             stagger={0.06}
-            className="mt-14 hidden gap-4 overflow-x-auto pb-4 md:flex [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            className="mt-14 hidden columns-2 gap-4 md:block lg:columns-3"
           >
             {GALLERY.map((src, i) => (
               <StaggerItem
                 key={i}
-                className="relative min-w-[340px] aspect-[4/3] overflow-hidden rounded-xl border border-border transition-transform hover:-translate-y-1"
+                className={`relative mb-4 w-full break-inside-avoid overflow-hidden rounded-xl border border-border transition-transform duration-300 hover:-translate-y-1 ${GALLERY_ASPECTS[i]}`}
               >
                 <img
                   src={src}
-                  srcSet={imageSrcSet(src, [340, 680, 1020])}
-                  sizes="340px"
+                  srcSet={imageSrcSet(src, [400, 800, 1200])}
+                  sizes="(min-width: 1024px) 33vw, 50vw"
                   alt={GALLERY_ALTS[i]}
                   width="1200"
                   height="900"
@@ -892,7 +903,7 @@ export default function Home() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2.5">
                 <img
-                  src="/Profile.jpeg"
+                  src="/Profile.webp"
                   alt="Automan Fitness Gym logo"
                   className="h-10 w-10 shrink-0 rounded-md object-cover"
                 />
@@ -1073,8 +1084,13 @@ function ContactCard({ label, value, helper, href }) {
 }
 
 function FacilityCard({ f, className = "" }) {
+  const reducedMotion = useReducedMotion();
+  const textRef = useRef(null);
+  const textInView = useInView(textRef, { once: true, amount: 0.35 });
+
   return (
-    <StaggerItem
+    <motion.div
+      variants={{ hidden: {}, visible: {} }}
       className={`group relative aspect-[4/5] overflow-hidden rounded-xl border border-border bg-card ${className}`}
     >
       <img
@@ -1086,15 +1102,21 @@ function FacilityCard({ f, className = "" }) {
         height="1500"
         loading="lazy"
         decoding="async"
-        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+        className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 p-6">
+      <motion.div
+        ref={textRef}
+        initial={reducedMotion ? false : { opacity: 0, y: -48 }}
+        animate={reducedMotion || textInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -48 }}
+        transition={{ duration: reducedMotion ? 0 : 0.6, ease: premiumEase }}
+        className="absolute inset-x-0 bottom-0 p-6"
+      >
         <div className="mb-1 h-px w-8 bg-primary transition-all duration-500 group-hover:w-16" />
         <h3 className="mt-3 text-xl font-bold">{f.title}</h3>
         <p className="mt-1.5 text-sm text-muted-foreground">{f.desc}</p>
-      </div>
-    </StaggerItem>
+      </motion.div>
+    </motion.div>
   );
 }
 
