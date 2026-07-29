@@ -1,5 +1,5 @@
 import { createElement, useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 
 const easeOut = [0.22, 1, 0.36, 1];
 
@@ -31,7 +31,7 @@ export function Reveal({
   duration = 0.65,
   amount = 0.2,
   margin = "0px 0px -8% 0px",
-  replay = true,
+  replay = false,
   scale = 1,
   ...props
 }) {
@@ -81,7 +81,7 @@ export function StaggerContainer({
   amount = 0.15,
   margin = "0px 0px -6% 0px",
   stagger = 0.09,
-  replay = true,
+  replay = false,
   ...props
 }) {
   const ref = useRef(null);
@@ -137,7 +137,7 @@ export function AnimatedCounter({ value, className = "" }) {
   const target = match ? Number(match[1]) : null;
   const suffix = match?.[2] || "";
   const ref = useRef(null);
-  const inView = useInView(ref, { once: false, amount: 0.65 });
+  const inView = useInView(ref, { once: true, amount: 0.65 });
   const reduced = useReducedMotion();
   const [count, setCount] = useState(reduced || target == null ? target : 0);
 
@@ -146,10 +146,7 @@ export function AnimatedCounter({ value, className = "" }) {
       setCount(target);
       return;
     }
-    if (!inView) {
-      setCount(0);
-      return;
-    }
+    if (!inView) return;
     let frame;
     const start = performance.now();
     const tick = (now) => {
@@ -168,17 +165,5 @@ export function AnimatedCounter({ value, className = "" }) {
       {count}
       {suffix}
     </span>
-  );
-}
-
-export function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
-  return (
-    <motion.div
-      aria-hidden="true"
-      className="fixed inset-x-0 top-0 z-[70] h-0.5 origin-left bg-primary"
-      style={{ scaleX }}
-    />
   );
 }

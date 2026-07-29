@@ -19,13 +19,7 @@ import {
   Navigation,
   Check,
 } from "lucide-react";
-import {
-  AnimatedCounter,
-  Reveal,
-  ScrollProgress,
-  StaggerContainer,
-  StaggerItem,
-} from "../components/animations";
+import { AnimatedCounter, Reveal, StaggerContainer, StaggerItem } from "../components/animations";
 
 const premiumEase = [0.22, 1, 0.36, 1];
 const heroItem = {
@@ -307,7 +301,6 @@ export default function Home() {
 
   return (
     <div id="home" className="min-h-screen bg-background text-foreground">
-      <ScrollProgress />
       {/* NAV */}
       <motion.header
         initial={reducedMotion ? false : { opacity: 0, y: -18 }}
@@ -855,7 +848,7 @@ export default function Home() {
                   <MessageCircle className="h-4 w-4" /> Chat on Messenger
                 </a>
               </StaggerItem>
-              <StaggerItem className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 {BRANCHES.map((b) => (
                   <div
                     key={b.id}
@@ -886,7 +879,7 @@ export default function Home() {
                     />
                   </div>
                 ))}
-              </StaggerItem>
+              </div>
             </StaggerContainer>
           </div>
         </section>
@@ -895,8 +888,8 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="border-t border-border bg-background">
         <div className="container-x mx-auto max-w-7xl py-16">
-          <StaggerContainer className="grid gap-10 md:grid-cols-4" stagger={0.08}>
-            <StaggerItem className="md:col-span-2">
+          <div className="grid gap-10 md:grid-cols-4">
+            <div className="md:col-span-2">
               <div className="flex items-center gap-2.5">
                 <img
                   src="/Profile.jpeg"
@@ -921,8 +914,8 @@ export default function Home() {
                   <Facebook className="h-4 w-4" />
                 </a>
               </div>
-            </StaggerItem>
-            <StaggerItem>
+            </div>
+            <div>
               <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Explore
               </div>
@@ -935,8 +928,8 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-            </StaggerItem>
-            <StaggerItem>
+            </div>
+            <div>
               <div className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Reach Us
               </div>
@@ -957,8 +950,8 @@ export default function Home() {
                 <li>Tejgaon</li>
                 <li>Dhanmondi</li>
               </ul>
-            </StaggerItem>
-          </StaggerContainer>
+            </div>
+          </div>
           <div className="mt-14 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
             <p>© 2026 Automan Fitness Gym. All rights reserved.</p>
             <p>অটোম্যান ফিটনেস জিম</p>
@@ -994,7 +987,7 @@ function SectionHeader({ tag, title, sub }) {
 
 function BranchCard({ branch, status, onJoin }) {
   return (
-    <StaggerItem className="group overflow-hidden rounded-xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/60">
+    <div className="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/60">
       <div className="relative aspect-[16/10] overflow-hidden">
         <img
           src={branch.image}
@@ -1005,7 +998,7 @@ function BranchCard({ branch, status, onJoin }) {
           height="875"
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
         <div className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full bg-background/85 px-3 py-1.5 text-xs font-semibold backdrop-blur">
@@ -1017,7 +1010,7 @@ function BranchCard({ branch, status, onJoin }) {
           {status.label}
         </div>
       </div>
-      <div className="p-6 md:p-8">
+      <Reveal className="p-6 md:p-8" distance={20}>
         <h3 className="text-2xl font-bold uppercase tracking-tight">{branch.name}</h3>
         <p className="mt-3 flex items-start gap-2 text-sm leading-relaxed text-muted-foreground">
           <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
@@ -1045,8 +1038,8 @@ function BranchCard({ branch, status, onJoin }) {
             Join Now <ArrowRight className="h-4 w-4" />
           </button>
         </div>
-      </div>
-    </StaggerItem>
+      </Reveal>
+    </div>
   );
 }
 
@@ -1199,11 +1192,8 @@ function PricingCard({ plan, onJoin, className = "" }) {
 
 function TrainerCard({ t, className = "" }) {
   return (
-    <StaggerItem
-      whileHover={{ y: -4 }}
-      className={`group flex flex-col items-center px-3 py-5 text-center ${className}`}
-    >
-      <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-full border-2 border-primary/40 p-1 transition-colors group-hover:border-primary sm:h-44 sm:w-44">
+    <div className={`flex flex-col items-center px-3 py-5 text-center ${className}`}>
+      <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-full border-2 border-primary/40 p-1 sm:h-44 sm:w-44">
         <img
           src={t.img}
           srcSet={imageSrcSet(t.img, [320, 480, 640, 800])}
@@ -1213,7 +1203,7 @@ function TrainerCard({ t, className = "" }) {
           height="800"
           loading="lazy"
           decoding="async"
-          className="h-full w-full rounded-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full rounded-full object-cover"
         />
       </div>
       <div className="mt-5 flex flex-1 flex-col items-center">
@@ -1222,7 +1212,7 @@ function TrainerCard({ t, className = "" }) {
           {t.role}
         </div>
       </div>
-    </StaggerItem>
+    </div>
   );
 }
 
