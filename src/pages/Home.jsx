@@ -16,6 +16,7 @@ import {
   Star,
   ArrowRight,
   Facebook,
+  Instagram,
   Navigation,
   Check,
 } from "lucide-react";
@@ -923,6 +924,15 @@ export default function Home() {
                   className="grid h-10 w-10 place-items-center rounded-md border border-border transition-colors hover:border-primary hover:text-primary"
                 >
                   <Facebook className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://www.instagram.com/automan_fitness_gym/?hl=en"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Automan Fitness Gym on Instagram"
+                  className="grid h-10 w-10 place-items-center rounded-md border border-border transition-colors hover:border-primary hover:text-primary"
+                >
+                  <Instagram className="h-4 w-4" />
                 </a>
               </div>
             </div>
